@@ -12,6 +12,7 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
+import org.jgrapht.alg.KosarajuStrongConnectivityInspector;
 
 import com.javadocmd.simplelatlng.LatLng;
 import com.javadocmd.simplelatlng.LatLngTool;
@@ -92,8 +93,11 @@ public class Model {
 		return false;
 	}
 	
-	//INTERPRETAZIONE 1: valuto se il grafo è connesso
+	// Valuto se il grafo è CONNESSO : ovvero se esistono dei cammini che collegano tutte le coppie di aeropporti ( con scalo)
+	
+	//METODO 1(piu veloce)
 	public boolean tuttiVerticiraggiungibili(){
+		KosarajuStrongConnectivityInspector<Airport, DefaultWeightedEdge> ksci = new KosarajuStrongConnectivityInspector<Airport, DefaultWeightedEdge>(grafo);
 		ConnectivityInspector <Airport, DefaultWeightedEdge> inspector = new ConnectivityInspector <Airport, DefaultWeightedEdge>(this.grafo);
 		if ( inspector.isGraphConnected() == true){
 			return true;
@@ -102,7 +106,7 @@ public class Model {
 	
 	}
 	
-	// INTERPRETAZIONE 2 : valuto se esistono dei cammini che collegano tutte le coppie di aeropporti ( con scalo)
+	// METODO 2
 	public boolean tuttiVerticiraggiungibili2(){
 		
 		DijkstraShortestPath <Airport, DefaultWeightedEdge> dsp;
